@@ -1,0 +1,10 @@
+# Usa la imagen oficial de Nginx basada en Alpine (súper ligera)
+FROM nginx:alpine
+
+# Copia nuestro archivo HTML a la carpeta pública por defecto de Nginx
+COPY index.html /usr/share/nginx/html/
+
+# Expone el puerto 80 estándar para HTTP
+EXPOSE 80
+
+# Nginx arranca automáticamente por defecto, no requiere comando adicional
