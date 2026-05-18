@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  # 1. Base de Datos (MongoDB)
+  mongodb:
+    image: mongo:latest
+    container_name: lab_mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - red-laboratorio
+
+  # 2. Servidor Backend (FastAPI)
+  backend:
+    build: ./backend
+    container_name: lab_backend
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017/logs_robotica
+    depends_on:
+      - mongodb
+    networks:
+      - red-laboratorio
+
+  # 3. Frontend (Dashboard Web Nginx)
+  frontend:
+    build: ./frontend
+    container_name: lab_frontend
+    restart: always
+    ports:
+      - "80:80"  # Expone el dashboard en el puerto HTTP estándar (IP pública)
+    depends_on:
+      - backend
+    networks:
+      - red-laboratorio
+
+volumes:
+  mongo_data:
+
+networks:
+  red-laboratorio:
+    driver: bridge
