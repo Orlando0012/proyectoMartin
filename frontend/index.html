@@ -54,7 +54,7 @@
         async function cargarLogs() {
             try {
                 // Buscamos la API en el mismo servidor (IP pública)
-                const respuesta = await fetch('/api/logs');
+                const respuesta = await fetch('http://161.35.112.5:3000/api/logs');
                 if (!respuesta.ok) throw new Error('Error al conectar con el backend');
                 
                 const logs = await respuesta.json();
